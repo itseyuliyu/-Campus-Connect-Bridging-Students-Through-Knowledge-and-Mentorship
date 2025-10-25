@@ -1,4 +1,4 @@
-import { email, z } from "zod";
+import { z } from "zod";
 
 export const getStudentSchema = z.object({
   username: z.string().min(5),
@@ -26,4 +26,13 @@ export const createDepartmentSchema = z.object({
   name: z.string().min(5),
   abbreviation: z.string().min(2),
   collegeName: z.string().min(3),
+});
+
+export const createProjectSchema = z.object({
+  title: z.string().min(5),
+  departmentId: z.coerce.number().min(1),
+  course: z.string().min(4),
+  studentId: z.coerce.number().min(1),
+  classYear: z.coerce.number().min(1),
+  createdAt: z.date().optional(),
 });

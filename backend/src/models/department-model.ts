@@ -26,11 +26,7 @@ export async function createDepartment({
   name,
   abbreviation,
   collegeName,
-}: {
-  name: string;
-  abbreviation: string;
-  collegeName: string;
-}) {
+}: Prisma.DepartmentUncheckedCreateInput) {
   const checkDepartment = await prisma.department.findUnique({
     where: {
       abbreviation: abbreviation,

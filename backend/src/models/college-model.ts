@@ -1,5 +1,5 @@
 import { prisma } from "@/db.js";
-import type { College } from "@/generated/prisma/index.js";
+import type { Prisma } from "@/generated/prisma/index.js";
 
 export async function getAllColleges() {
   return await prisma.college.findMany();
@@ -13,7 +13,10 @@ export async function getCollege(abbreviation: string) {
   });
 }
 
-export async function createCollge({ abbreviation, name }: College) {
+export async function createCollge({
+  abbreviation,
+  name,
+}: Prisma.CollegeUncheckedCreateInput) {
   const checkCollege = await prisma.college.findUnique({
     where: {
       abbreviation,

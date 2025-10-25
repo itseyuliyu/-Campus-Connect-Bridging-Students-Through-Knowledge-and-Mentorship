@@ -25,6 +25,7 @@ model Department {
   college College @relation(fields: [collegeName], references: [abbreviation])
   collegeName String
   students Student[]
+  projects Project[]
 }
 
 model Student {
@@ -40,4 +41,23 @@ model Student {
   departmentId Int
   college College @relation(fields: [collegeName], references: [abbreviation])
   collegeName String
+  projects Project[]
+}
+
+// model Course {
+//   id Int @id @default(autoincrement())
+//   name String
+// }
+
+model Project {
+  id Int @id @default(autoincrement())
+  course String
+  title String
+  classYear Int
+  student Student @relation(fields: [studentId], references: [id])
+  studentId Int
+  department Department @relation(fields: [departmentId], references: [id])
+  departmentId Int
+  createdAt DateTime?
+  uploadDate DateTime @default(now())
 }

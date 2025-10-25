@@ -19,6 +19,9 @@ export async function getStudentByCredentials({
 
 export async function getStudentsByCollege(collegeName: string) {
   const students = await prisma.student.findMany({
+    omit: {
+      password: true,
+    },
     where: {
       collegeName,
     },
@@ -38,6 +41,9 @@ export async function getStudentsByCollege(collegeName: string) {
 
 export async function getStudentsByDepartment(departmentId: number) {
   const students = await prisma.student.findMany({
+    omit: {
+      password: true,
+    },
     where: {
       departmentId,
     },
@@ -65,17 +71,7 @@ export async function createStudent({
   departmentId,
   collegeName,
   bio,
-}: {
-  fname: string;
-  lname: string;
-  username: string;
-  password: string;
-  email: string;
-  classYear: number;
-  departmentId: number;
-  collegeName: string;
-  bio?: string;
-}) {
+}: Prisma.StudentUncheckedCreateInput) {
   try {
     const student = await prisma.student.create({
       data: {
