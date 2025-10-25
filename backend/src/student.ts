@@ -1,13 +1,13 @@
 import { Hono } from "hono";
-import { getStudentSchema } from "./form-schema.js";
-import { getUser } from "./models/student.js";
+import { createUserSchema, getStudentSchema } from "./form-schema.js";
+import { createUser, getUser } from "./models/student.js";
 
 const app = new Hono();
 
 /**
  * get user using username and password
  */
-app.post("/", async (c) => {
+app.post("/login", async (c) => {
   const formData = await c.req.parseBody();
   const { success, error, data } = getStudentSchema.safeParse(formData);
   if (success) {
@@ -30,8 +30,15 @@ app.post("/", async (c) => {
   }
 });
 
-app.post("/create", async (c) => {
-  const data = await c.req.parseBody();
+app.post("/register", async (c) => {
+  const formData = await c.req.parseBody();
+  const { success, error, data } = createUserSchema.safeParse(formData);
+  if (success) {
+    const student = await createUser(data);
+    return c.json(student);
+  } else {
+    return c.json(error.issues);
+  }
 });
 
 export default app;

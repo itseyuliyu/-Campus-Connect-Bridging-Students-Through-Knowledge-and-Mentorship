@@ -20,7 +20,7 @@ model College {
 model Department {
   id Int @id @default(autoincrement())
   name String
-  abbreviation String
+  abbreviation String @unique
   college College @relation(fields: [collegeName], references: [abbreviation])
   collegeName String
   students Student[]

@@ -1,11 +1,50 @@
 import { Hono } from "hono";
 import { createCollegeSchema } from "./form-schema.js";
-import { createCollge } from "./models/college.js";
+import { createCollge, getCollege, getAllColleges } from "./models/college.js";
+import { generateResponse } from "./utils/generate-response.js";
 
 const app = new Hono();
 
 app
-  .get("/", async (c) => {})
+  .get("/", async (c) => {
+    const abbreviation = c.req.query("id");
+    const all = c.req.query("all");
+    if (all) {
+      const colleges = await getAllColleges();
+      if (colleges.length != 0) {
+        return c.json(colleges);
+      } else {
+        return c.json(
+          generateResponse({
+            success: false,
+            error: "No record found.",
+          })
+        );
+      }
+    }
+    if (abbreviation) {
+      const college = await getCollege(abbreviation);
+
+      if (college == null) {
+        return c.json(
+          generateResponse({
+            success: false,
+            error: "No record found",
+          })
+        );
+      } else {
+        return c.json(
+          generateResponse<typeof college>({
+            success: true,
+            data: college,
+          })
+        );
+      }
+    }
+    return c.json(
+      generateResponse({ success: false, error: "Invalid Request" })
+    );
+  })
   .post(async (c) => {
     const formData = await c.req.parseBody();
     const { success, error, data } = createCollegeSchema.safeParse(formData);
@@ -30,5 +69,10 @@ app
       });
     }
   });
+
+app.get("/colleges", async (c) => {
+  const colleges = await getAllColleges();
+  console.log(colleges);
+});
 
 export default app;
