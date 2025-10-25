@@ -15,6 +15,7 @@ model College {
   abbreviation String @id
   name String
   departments Department[]
+  students Student[]
 }
 
 model Department {
@@ -37,4 +38,6 @@ model Student {
   bio String?
   department Department @relation(fields: [departmentId], references: [id])
   departmentId Int
+  college College @relation(fields: [collegeName], references: [abbreviation])
+  collegeName String
 }

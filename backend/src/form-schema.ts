@@ -14,6 +14,7 @@ export const createUserSchema = z.object({
   classYear: z.coerce.number().min(1),
   bio: z.string().min(20).optional(),
   departmentId: z.coerce.number().min(1),
+  collegeName: z.string().min(2),
 });
 
 export const createCollegeSchema = z.object({

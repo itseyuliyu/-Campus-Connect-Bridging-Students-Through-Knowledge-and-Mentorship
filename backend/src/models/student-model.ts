@@ -2,7 +2,7 @@ import { prisma } from "@/db.js";
 import { Prisma } from "@/generated/prisma/index.js";
 import { generateResponse } from "@/utils/generate-response.js";
 
-export async function getUser({
+export async function getStudentByCredentials({
   username,
   password,
 }: {
@@ -17,7 +17,45 @@ export async function getUser({
   });
 }
 
-export async function createUser({
+export async function getStudentsByCollege(collegeName: string) {
+  const students = await prisma.student.findMany({
+    where: {
+      collegeName,
+    },
+  });
+  if (students.length > 0) {
+    return generateResponse({
+      success: true,
+      data: students,
+    });
+  } else {
+    return generateResponse({
+      success: false,
+      error: "No records found.",
+    });
+  }
+}
+
+export async function getStudentsByDepartment(departmentId: number) {
+  const students = await prisma.student.findMany({
+    where: {
+      departmentId,
+    },
+  });
+  if (students.length > 0) {
+    return generateResponse({
+      success: true,
+      data: students,
+    });
+  } else {
+    return generateResponse({
+      success: false,
+      error: "No records found.",
+    });
+  }
+}
+
+export async function createStudent({
   fname,
   lname,
   username,
@@ -25,6 +63,7 @@ export async function createUser({
   email,
   classYear,
   departmentId,
+  collegeName,
   bio,
 }: {
   fname: string;
@@ -34,6 +73,7 @@ export async function createUser({
   email: string;
   classYear: number;
   departmentId: number;
+  collegeName: string;
   bio?: string;
 }) {
   try {
@@ -49,6 +89,11 @@ export async function createUser({
         department: {
           connect: {
             id: departmentId,
+          },
+        },
+        college: {
+          connect: {
+            abbreviation: collegeName,
           },
         },
       },

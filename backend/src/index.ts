@@ -1,8 +1,8 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import college from "./college.js";
-import department from "./department.js";
-import student from "./student.js";
+import college from "./routes/college.js";
+import department from "./routes/department.js";
+import student from "./routes/student.js";
 
 const app = new Hono().basePath("/api");
 

@@ -4,9 +4,9 @@ import {
   getAllDepartments,
   getCollegeDepartments,
   getDepartment,
-} from "./models/department.js";
-import { generateResponse } from "./utils/generate-response.js";
-import { createDepartmentSchema } from "./form-schema.js";
+} from "../models/department-model.js";
+import { generateResponse } from "../utils/generate-response.js";
+import { createDepartmentSchema } from "../form-schema.js";
 
 const app = new Hono();
 

@@ -1,7 +1,11 @@
 import { Hono } from "hono";
-import { createCollegeSchema } from "./form-schema.js";
-import { createCollge, getCollege, getAllColleges } from "./models/college.js";
-import { generateResponse } from "./utils/generate-response.js";
+import { createCollegeSchema } from "../form-schema.js";
+import {
+  createCollge,
+  getCollege,
+  getAllColleges,
+} from "../models/college-model.js";
+import { generateResponse } from "../utils/generate-response.js";
 
 const app = new Hono();
 
