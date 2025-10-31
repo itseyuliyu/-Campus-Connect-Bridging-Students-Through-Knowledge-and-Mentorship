@@ -2,6 +2,22 @@ import { Prisma } from "@/generated/prisma/client.js";
 import { prisma } from "@/db.js";
 import { generateResponse } from "@/utils/generate-response.js";
 
+export async function getProjectsByDepartment(departmentId: number) {
+  return await prisma.project.findMany({
+    where: {
+      departmentId,
+    },
+  });
+}
+
+export async function getProjectsByStudent(studentId: number) {
+  return await prisma.project.findMany({
+    where: {
+      studentId,
+    },
+  });
+}
+
 export async function createProject({
   title,
   departmentId,
@@ -34,7 +50,6 @@ export async function createProject({
       data: project,
     });
   } catch (error) {
-    console.log(error);
     return generateResponse({
       success: false,
       error: "Error creating record.",

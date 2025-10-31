@@ -15,7 +15,6 @@ app
     const id = c.req.query("id");
     const all = c.req.query("all");
     const college = c.req.query("college");
-    console.log(id, all, college);
     if (college) {
       const departments = await getCollegeDepartments(college);
       if (departments.length != 0) {
